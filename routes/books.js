@@ -42,12 +42,12 @@ router.post('/' , async( req, res) => {
         pageCount: req.body.pageCount,
         description: req.body.description
     })
-    saveCover(book, req.body.cover)
 
     try {
         const newBook = await book.save()
+        saveCover(book, req.body.cover)
         // res.redirect(`book/${newBook.id}`)
-        res.redirect(`books`)
+        res.redirect('books')
     } catch {
         renderNewPage(res, book, true)
     }
@@ -55,7 +55,7 @@ router.post('/' , async( req, res) => {
 
 async function renderNewPage(res, book, hasError = false) {
     try {
-        const authors = await author.find({})
+        const authors = await Author.find({})
         const params = { 
             authors: authors,
             book: book
